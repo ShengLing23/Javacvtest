@@ -1,3 +1,4 @@
+package com.ffmpeg.record;
 
 import org.bytedeco.ffmpeg.global.avcodec;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
