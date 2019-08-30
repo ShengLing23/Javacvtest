@@ -18,10 +18,18 @@ import java.util.Map;
  */
 public class RecordRefactoring {
 
+    //视频存储地址
     private String savePath = "G:\\testffmpeg\\";
-
+    //每段视频的时长
     private long duration = 5*60*1000L;
 
+    /**
+     *
+     * @param rtmpPath  rtmp流地址
+     * @param outFileNamePre   录制的视频的名称
+     * @throws FrameGrabber.Exception
+     * @throws FrameRecorder.Exception
+     */
     public void record(String rtmpPath,String outFileNamePre) throws FrameGrabber.Exception, FrameRecorder.Exception {
         boolean flag = true;
         int error_count = 0;
@@ -72,8 +80,12 @@ public class RecordRefactoring {
         return map;
     }
 
-
-
+    /**
+     * 通过输出文件名前缀和持续的时长，生成输出的视频文件
+     * @param outFileNamePre 输出文件名前缀
+     * @param duration       持续的时长
+     * @return               输出的文件
+     */
     private File getOutFile(String outFileNamePre,long duration){
         long start = System.currentTimeMillis();
         String startStr = formatTime(start);
@@ -95,13 +107,20 @@ public class RecordRefactoring {
     }
 
     private FrameRecorder initFrameRecorder(File outFile,Map<String,Object> paramMap){
+        // 视频的长、宽
         Integer width = (Integer) paramMap.get("width");
         Integer heigth = (Integer) paramMap.get("heigth");
+        // 帧率
         Double frameRate = (Double) paramMap.get("frameRate");
+        // 比特率
         Integer videoBitrate = (Integer) paramMap.get("videoBitrate");
+
+        //音频的参数
+        //想要录制音频，这三个参数必须有：audioChannels > 0 && audioBitrate > 0 && sampleRate > 0
         Integer audioChannels = (Integer) paramMap.get("audioChannels");
         Integer audioBitrate = (Integer) paramMap.get("audioBitrate");
         Integer sampleRate = (Integer) paramMap.get("sampleRate");
+
         FrameRecorder recorder = null;
         try {
             recorder = FrameRecorder.createDefault(outFile,width,heigth);
